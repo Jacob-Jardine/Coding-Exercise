@@ -6,12 +6,12 @@ import java.time.LocalDate;
 
 public class Transaction {
 	private double Amount;
-	private Category Category;
+	private Enum<Category> Category;
 	private LocalDate TransactionDate;
-	private Type Type;
+	private Enum<Type> Type;
 	private String Vendor;
 	
-	public Transaction(double Amount, Category Category, LocalDate TransactionDate, Type Type, String Vendor) {
+	public Transaction(double Amount, Enum<Category> Category, LocalDate TransactionDate, Enum<Type> Type, String Vendor) {
 		this.Amount = Amount;
 		this.Category = Category;
 		this.TransactionDate = TransactionDate;
@@ -27,11 +27,11 @@ public class Transaction {
 		Amount = amount;
 	}
 
-	public Category getCategory() {
+	public Enum<Category> getCategory() {
 		return Category;
 	}
 
-	public void setCategory(Category category) {
+	public void setCategory(Enum<Category> category) {
 		Category = category;
 	}
 
@@ -43,11 +43,11 @@ public class Transaction {
 		TransactionDate = transactionDate;
 	}
 
-	public Type getType() {
+	public Enum<Type> getType() {
 		return Type;
 	}
 
-	public void setType(Type type) {
+	public void setType(Enum<Type> type) {
 		Type = type;
 	}
 
