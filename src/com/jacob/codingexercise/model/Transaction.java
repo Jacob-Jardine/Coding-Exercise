@@ -61,6 +61,6 @@ public class Transaction {
 	
 	@Override
 	public String toString() {
-		return String.format(" Transaction Amount: %s \n Category: %s \n Transaction Date: %s \n Type: %s \n Vendor %s", Amount, Category, TransactionDate, Type, Vendor);
+		return String.format(" Transaction Amount: %s \n Category: %s \n Transaction Date: %s \n Type: %s \n Vendor %s \n", Amount, Category, TransactionDate, Type, Vendor);
 	}
 }

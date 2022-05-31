@@ -1,12 +1,21 @@
 package com.jacob.codingexercise.service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
+import java.util.function.Function;
+import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 import com.jacob.codingexercise.enums.Category;
 import com.jacob.codingexercise.enums.Type;
 import com.jacob.codingexercise.model.Transaction;
+
 
 public class StatementService implements IStatementService{
 
@@ -56,29 +65,36 @@ public class StatementService implements IStatementService{
 						break;
 				}
 				
-				TransactionDate = TransactionDate(365);
+				TransactionDate = TransactionDate(RandomNumber(365));
 				
 				_transaction.add(new Transaction(Amount, Category, TransactionDate, Type, Vendor));
-				
-				return true;
 			}
+			return true;
 			
 		}catch(Exception e) {
 			return false;
 		}
-		return false;
 	}
 
 	@Override
 	public void ReadStatement() {
-		// TODO Auto-generated method stub
-		
+		for(Transaction t : _transaction) {
+			System.out.print(t.toString()+ "\n");
+		}
 	}
 
 	@Override
-	public List<Transaction> GroubByCategory() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Transaction> SortStatement() {
+		try {
+			List<Transaction> temp = _transaction;
+			
+			Collections.sort(temp, Comparator.comparing(Transaction::getTransactionDate));
+			Collections.sort(temp, (x, y) -> x.getCategory().compareTo((Category) y.getCategory()));
+			
+			return temp;
+		}catch(Exception e) {
+			return null;
+		}
 	}
 	
 	private int RandomNumber(int range) {
@@ -90,5 +106,4 @@ public class StatementService implements IStatementService{
 		LocalDate date = LocalDate.now();
 		return date.minusDays(days);
 	}
-
 }

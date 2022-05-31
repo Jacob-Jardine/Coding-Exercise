@@ -6,5 +6,5 @@ import java.util.List;
 public interface IStatementService {
 	public Boolean CreateTransactions(int numOfTransactions);
 	public void ReadStatement();
-	public List<Transaction> GroubByCategory();
+	public List<Transaction> SortStatement();
 }

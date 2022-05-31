@@ -13,11 +13,16 @@ public class Main {
 	public static void main(String[] args) {
 		List<Transaction> transactionList = new ArrayList<Transaction>();
 		IStatementService statement = new StatementService(transactionList);
-		if(statement.CreateTransactions(10) == true) {
-			System.out.println(true);
-		}else {
-			System.out.println(false);
+		
+		statement.CreateTransactions(10);
+		
+		//statement.ReadStatement();
+		List<Transaction> temp = statement.SortStatement();
+		for(Transaction t : temp) {
+			System.out.println(t.toString());
 		}
+		
+		
 	}
 
 }
