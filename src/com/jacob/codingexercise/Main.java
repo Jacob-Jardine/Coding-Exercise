@@ -15,14 +15,8 @@ public class Main {
 		IStatementService statement = new StatementService(transactionList);
 		
 		statement.CreateTransactions(10);
-		
-		//statement.ReadStatement();
-		List<Transaction> temp = statement.SortStatement();
-		for(Transaction t : temp) {
-			System.out.println(t.toString());
-		}
-		
-		
+		statement.SortStatement();
+		statement.ReadStatement();
+		statement.TotalPerCategory();	
 	}
-
 }

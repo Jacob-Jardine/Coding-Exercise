@@ -84,18 +84,46 @@ public class StatementService implements IStatementService{
 	}
 
 	@Override
-	public List<Transaction> SortStatement() {
+	public Boolean SortStatement() {
 		try {
-			List<Transaction> temp = _transaction;
+			Collections.sort(_transaction, Comparator.comparing(Transaction::getTransactionDate));
+			Collections.sort(_transaction, (x, y) -> x.getCategory().compareTo((Category) y.getCategory()));
 			
-			Collections.sort(temp, Comparator.comparing(Transaction::getTransactionDate));
-			Collections.sort(temp, (x, y) -> x.getCategory().compareTo((Category) y.getCategory()));
-			
-			return temp;
+			return true;
 		}catch(Exception e) {
-			return null;
+			return false;
 		}
 	}
+	
+	@Override
+	public Boolean TotalPerCategory() {
+		try {
+			String category1 = "";
+			String category2 = "";
+			double total = 0.0;
+			for(int i = 0; i < _transaction.size(); i++) {
+				total = 0.0;
+				category1 = _transaction.get(i).getCategory().toString();
+				for(int j = 0; j < _transaction.size(); j++) {
+					category2 = _transaction.get(j).getCategory().toString();
+					if(category1 == category2) {
+						total += _transaction.get(j).getAmount();
+					}
+				}
+				if(category1 != _transaction.get(i+1).getCategory().toString()) {
+					System.out.println(_transaction.get(i).getCategory().toString() + " " + total);
+				}
+				// i increments from 0, _transaction.Size() increments from 1. -2 gets last element
+				else if(i == _transaction.size() - 2) {
+					System.out.println(_transaction.get(i).getCategory().toString() + " " + total);
+				}			
+			}
+			return true;
+		}catch(Exception e) {
+			return false;
+		}
+	}
+	
 	
 	private int RandomNumber(int range) {
 		Random randomNumber = new Random();
