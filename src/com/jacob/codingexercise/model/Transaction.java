@@ -11,6 +11,7 @@ public class Transaction {
 	private Enum<Type> Type;
 	private String Vendor;
 	
+	
 	public Transaction(double Amount, Enum<Category> Category, LocalDate TransactionDate, Enum<Type> Type, String Vendor) {
 		this.Amount = Amount;
 		this.Category = Category;
