@@ -77,15 +77,26 @@ public class StatementService implements IStatementService{
 	}
 
 	@Override
-	public void ReadStatement() {
-		for(Transaction t : _transaction) {
-			System.out.print(t.toString()+ "\n");
+	public Boolean ReadStatement() {
+		try {
+			if(_transaction.size() == 0) {
+				return false;
+			}
+			for(Transaction t : _transaction) {
+				System.out.print(t.toString()+ "\n");
+			}
+			return true;
+		}catch(Exception e){
+			return false;
 		}
 	}
 
 	@Override
 	public Boolean SortStatement() {
 		try {
+			if(_transaction.size() == 0) {
+				return false;
+			}
 			Collections.sort(_transaction, Comparator.comparing(Transaction::getTransactionDate));
 			Collections.sort(_transaction, (x, y) -> x.getCategory().compareTo((Category) y.getCategory()));
 			
