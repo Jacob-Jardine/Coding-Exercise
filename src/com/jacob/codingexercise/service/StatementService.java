@@ -96,6 +96,74 @@ public class StatementService implements IStatementService{
 	}
 	
 	@Override
+	public List<Transaction> AllTransactionsForCategory(Enum<Category> category) {
+		try {
+			List<Transaction> temp = _transaction.stream().filter(x -> x.getCategory()== category).toList();
+			return temp;
+		}catch(Exception e) {
+			return null;
+		}
+	}
+	
+	@Override
+	public List<String> GetCategoryYear(List<Transaction> transactionList) {
+		try {
+			List<String> temp = new ArrayList<String>();
+			int year = transactionList.get(0).getTransactionDate().getYear();
+			temp.add(Integer.toString(year));
+			for(int i = 0; i < transactionList.size(); i ++) {
+				if(year < transactionList.get(i).getTransactionDate().getYear()) {
+					year = transactionList.get(i).getTransactionDate().getYear();
+					temp.add(Integer.toString(year));
+				}
+			}
+			return temp;
+		}catch(Exception e){
+			return null;
+		}
+	}
+	
+	@Override
+	public Boolean HighestSpend(Enum<Category> category, int year) {
+		try {
+			List<Transaction> temp = _transaction.stream().filter(x -> x.getCategory()== category).filter(x -> x.getTransactionDate().getYear() == year).toList();
+			
+			Double total = 0.0;
+			for(int i = 0; i < temp.size(); i++) {
+				if (temp.get(i).getAmount() > total) {
+					total = temp.get(i).getAmount();
+				}
+			}
+			
+			System.out.println(String.format("Highest Spend For Category: %s For Year : %s = %s", category, year, total));
+			
+			return true;
+		}catch(Exception e) {
+			return null;
+		}
+	}
+	
+	@Override
+	public Boolean LowestSpend(Enum<Category> category, int year) {
+		try {
+			List<Transaction> temp = _transaction.stream().filter(x -> x.getCategory()== category).filter(x -> x.getTransactionDate().getYear() == year).toList();
+			
+			Double total = temp.get(0).getAmount();
+			for(int i = 0; i < temp.size(); i++) {
+				if (temp.get(i).getAmount() < total) {
+					total = temp.get(i).getAmount();
+				}
+			}
+			
+			System.out.println(String.format("Lowest Spend For Category: %s For Year : %s = %s", category, year, total));
+			
+			return true;
+		}catch(Exception e) {
+			return null;
+		}
+	}
+	
+	@Override
 	public Boolean TotalPerCategory() {
 		try {
 			String category1 = "";
@@ -134,4 +202,10 @@ public class StatementService implements IStatementService{
 		LocalDate date = LocalDate.now();
 		return date.minusDays(days);
 	}
+
+	
+
+	
+
+	
 }
