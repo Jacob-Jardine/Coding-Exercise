@@ -61,7 +61,7 @@ public class Main {
 	private static IStatementService SetUp() {
 		List<Transaction> transactionList = new ArrayList<Transaction>();
 		IStatementService statement = new StatementService(transactionList);
-		statement.CreateTransactions(20);
+		statement.addTransaction(20);
 		statement.SortStatement();
 		return statement;
 	}
@@ -97,15 +97,15 @@ public class Main {
 				option = scanner.nextInt();
 				switch(option) {
 				case 1:
-					t = statement.AllTransactionsForCategory(Category.DD);
+					t = statement.filterTransactionsByCategory(Category.DD);
 					ReadStatement(t);
 					break;
 				case 2:
-					t = statement.AllTransactionsForCategory(Category.GROCERIES);
+					t = statement.filterTransactionsByCategory(Category.GROCERIES);
 					ReadStatement(t);
 					break;
 				case 3:
-					t = statement.AllTransactionsForCategory(Category.OTHER);
+					t = statement.filterTransactionsByCategory(Category.OTHER);
 					ReadStatement(t);
 					break;
 				case 4:
@@ -135,7 +135,7 @@ public class Main {
 		};
 		
 		List<Transaction> t = new ArrayList<Transaction>();
-		List<String> iList = new ArrayList<String>();
+		List<Integer> iList = new ArrayList<Integer>();
 		Scanner scanner = new Scanner(System.in);
 		int option = 1;
 		while (true) {
@@ -144,17 +144,17 @@ public class Main {
 				option = scanner.nextInt();
 				switch(option) {
 				case 1:
-					t = statement.AllTransactionsForCategory(Category.DD);
+					t = statement.filterTransactionsByCategory(Category.DD);
 					iList = statement.GetCategoryYear(t);
 					option7(statement, Category.DD, iList);
 					break;
 				case 2:
-					t = statement.AllTransactionsForCategory(Category.GROCERIES);
+					t = statement.filterTransactionsByCategory(Category.GROCERIES);
 					iList = statement.GetCategoryYear(t);
 					option7(statement, Category.GROCERIES,  iList);
 					break;
 				case 3:
-					t = statement.AllTransactionsForCategory(Category.OTHER);
+					t = statement.filterTransactionsByCategory(Category.OTHER);
 					iList = statement.GetCategoryYear(t);
 					option7(statement, Category.OTHER,  iList);
 					break;
@@ -177,7 +177,7 @@ public class Main {
 		};
 		
 		List<Transaction> t = new ArrayList<Transaction>();
-		List<String> iList = new ArrayList<String>();
+		List<Integer> iList = new ArrayList<Integer>();
 		Scanner scanner = new Scanner(System.in);
 		int option = 1;
 		while (true) {
@@ -186,17 +186,17 @@ public class Main {
 				option = scanner.nextInt();
 				switch(option) {
 				case 1:
-					t = statement.AllTransactionsForCategory(Category.DD);
+					t = statement.filterTransactionsByCategory(Category.DD);
 					iList = statement.GetCategoryYear(t);
 					option8(statement, Category.DD, iList);
 					break;
 				case 2:
-					t = statement.AllTransactionsForCategory(Category.GROCERIES);
+					t = statement.filterTransactionsByCategory(Category.GROCERIES);
 					iList = statement.GetCategoryYear(t);
 					option8(statement, Category.GROCERIES,  iList);
 					break;
 				case 3:
-					t = statement.AllTransactionsForCategory(Category.OTHER);
+					t = statement.filterTransactionsByCategory(Category.OTHER);
 					iList = statement.GetCategoryYear(t);
 					option8(statement, Category.OTHER,  iList);
 					break;
@@ -215,16 +215,16 @@ public class Main {
 		System.exit(0);
 	}
 	
-	private static void option7(IStatementService statement, Enum<Category> category, List<String> iList) {
+	private static void option7(IStatementService statement, Enum<Category> category, List<Integer> iList) {
 		Scanner scanner = new Scanner(System.in);
 		int option = 1;
 		while (true) {
-			for(String item : iList) {
+			for(Integer item : iList) {
 				System.out.println(item);
 			}
 			try {
 				option = scanner.nextInt();
-				if(iList.contains(Integer.toString(option))) {
+				if(iList.contains(option)) {
 					statement.HighestSpend(category, option);
 					return;
 				}
@@ -238,16 +238,16 @@ public class Main {
 		}
 	}
 	
-	private static void option8(IStatementService statement, Enum<Category> category, List<String> iList) {
+	private static void option8(IStatementService statement, Enum<Category> category, List<Integer> iList) {
 		Scanner scanner = new Scanner(System.in);
 		int option = 1;
 		while (true) {
-			for(String item : iList) {
+			for(Integer item : iList) {
 				System.out.println(item);
 			}
 			try {
 				option = scanner.nextInt();
-				if(iList.contains(Integer.toString(option))) {
+				if(iList.contains(option)) {
 					statement.LowestSpend(category, option);
 					return;
 				}

@@ -26,7 +26,7 @@ public class StatementService implements IStatementService{
 	}
 	
 	@Override
-	public Boolean CreateTransactions(int numOfTransactions) {
+	public Boolean addTransaction(int numOfTransactions) {
 		if(numOfTransactions == 0) {
 			return false;
 		}
@@ -107,7 +107,7 @@ public class StatementService implements IStatementService{
 	}
 	
 	@Override
-	public List<Transaction> AllTransactionsForCategory(Enum<Category> category) {
+	public List<Transaction> filterTransactionsByCategory(Enum<Category> category) {
 		try {
 			List<Transaction> temp = _transaction.stream().filter(x -> x.getCategory()== category).toList();
 			return temp;
@@ -117,15 +117,15 @@ public class StatementService implements IStatementService{
 	}
 	
 	@Override
-	public List<String> GetCategoryYear(List<Transaction> transactionList) {
+	public List<Integer> GetCategoryYear(List<Transaction> transactionList) {
 		try {
-			List<String> temp = new ArrayList<String>();
+			List<Integer> temp = new ArrayList<Integer>();
 			int year = transactionList.get(0).getTransactionDate().getYear();
-			temp.add(Integer.toString(year));
+			temp.add(year);
 			for(int i = 0; i < transactionList.size(); i ++) {
 				if(year < transactionList.get(i).getTransactionDate().getYear()) {
 					year = transactionList.get(i).getTransactionDate().getYear();
-					temp.add(Integer.toString(year));
+					temp.add(year);
 				}
 			}
 			return temp;
@@ -179,23 +179,28 @@ public class StatementService implements IStatementService{
 		try {
 			String category1 = "";
 			String category2 = "";
+			List<String> totalList = new ArrayList<String>();
 			double total = 0.0;
 			for(int i = 0; i < _transaction.size(); i++) {
 				total = 0.0;
 				category1 = _transaction.get(i).getCategory().toString();
-				for(int j = 0; j < _transaction.size(); j++) {
+				for(int j = 0; j < _transaction.size() -1; j++) {
 					category2 = _transaction.get(j).getCategory().toString();
 					if(category1 == category2) {
 						total += _transaction.get(j).getAmount();
 					}
+					
 				}
-				if(category1 != _transaction.get(i+1).getCategory().toString()) {
+				
+				if (totalList.size() == 0) {
+					totalList.add(_transaction.get(i).getCategory().toString() + " " + total);
 					System.out.println(_transaction.get(i).getCategory().toString() + " " + total);
 				}
-				// i increments from 0, _transaction.Size() increments from 1. -2 gets last element
-				else if(i == _transaction.size() - 2) {
+				if(!totalList.contains(_transaction.get(i).getCategory().toString() + " " + total)) {
+					totalList.add(_transaction.get(i).getCategory().toString() + " " + total);
 					System.out.println(_transaction.get(i).getCategory().toString() + " " + total);
-				}			
+				}
+				
 			}
 			return true;
 		}catch(Exception e) {
