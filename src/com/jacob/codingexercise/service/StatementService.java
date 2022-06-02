@@ -1,6 +1,7 @@
 package com.jacob.codingexercise.service;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -217,6 +218,33 @@ public class StatementService implements IStatementService{
 	private LocalDate TransactionDate(int days) {
 		LocalDate date = LocalDate.now();
 		return date.minusDays(days);
+	}
+
+	@Override
+	public Boolean monthlyAverageSpendForCategory(Enum<Category> category) {
+		try {
+			List<Transaction> temp = _transaction.stream().filter(x -> x.getCategory()== category).toList();
+			int size = temp.size();
+			LocalDate startDate = temp.get(0).getTransactionDate();
+			LocalDate endDate = temp.get(size-1).getTransactionDate();
+			
+			long dateDiff = ChronoUnit.MONTHS.between(startDate, endDate);
+			int months = (int)dateDiff;
+			
+			
+			Double total = 0.0;
+			for(Transaction t : temp) {
+				total += t.getAmount();
+			}
+			
+			Double average = total/months;
+			
+			System.out.println(String.format("Monthly Average Spend For: %s = %s", category, average));
+			
+			return true;
+		}catch(Exception e) {
+			return false;
+		}
 	}
 
 	

@@ -13,4 +13,5 @@ public interface IStatementService {
 	public List<Integer> GetCategoryYear(List<Transaction> transactionList);
 	public Boolean HighestSpend(Enum<Category> category, int year);
 	public Boolean LowestSpend(Enum<Category> category, int year);
+	public Boolean monthlyAverageSpendForCategory(Enum<Category> category);
 }

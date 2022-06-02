@@ -309,4 +309,24 @@ class StatementServiceTest {
 		
 		assertTrue(statement.TotalPerCategory());
 	}
+	
+	@Test
+	void monthlyAverageSpendForCategory() {
+		List<Transaction> t = new ArrayList<Transaction>();
+		IStatementService statement = new StatementService(t);
+		
+		statement.addTransaction(20);
+		
+		statement.SortStatement();
+		
+		assertTrue(statement.monthlyAverageSpendForCategory(Category.DD));
+	}
+	
+	@Test
+	void monthlyAverageSpendForCategoryException() {
+		List<Transaction> t = null;
+		IStatementService statement = new StatementService(t);
+		
+		assertFalse(statement.monthlyAverageSpendForCategory(null));
+	}
 }
