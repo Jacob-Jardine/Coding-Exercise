@@ -38,37 +38,37 @@ public class StatementService implements IStatementService{
 			String[] groceriesArr = {"Asda", "Morrisons", "M&S"};
 			String[] otherArr = {"McMillan"};
 			
-			double Amount = 0.0;
-			Category Category = null;
-			LocalDate TransactionDate;
-			Type Type = null;
-			String Vendor = "";
+			double amount = 0.0;
+			Category category = null;
+			LocalDate transactionDate;
+			Type type = null;
+			String vendor = "";
 			
 			for(int i = 0; i < numOfTransactions; i++) {
-				switch(RandomNumber(3)) {
+				switch(randomNumber(3)) {
 					case 0:
-						Amount = (double) Math.round(RandomNumber(999)/10.0);
-						Category = Category.DD;
-						Type = Type.DD;
-						Vendor = ddArr[RandomNumber(ddArr.length)].toString();
+						amount = (double) Math.round(randomNumber(999)/10.0);
+						category = category.DD;
+						type = type.DD;
+						vendor = ddArr[randomNumber(ddArr.length)].toString();
 						break;
 					case 1:
-						Amount = (double) Math.round(RandomNumber(999)/10.0);
-						Category = Category.GROCERIES;
-						Type = Type.CARD;
-						Vendor = groceriesArr[RandomNumber(groceriesArr.length)].toString();
+						amount = (double) Math.round(randomNumber(999)/10.0);
+						category = category.GROCERIES;
+						type = type.CARD;
+						vendor = groceriesArr[randomNumber(groceriesArr.length)].toString();
 						break;
 					case 2:
-						Amount = (double) Math.round(RandomNumber(999)/10.0);
-						Category = Category.OTHER;
-						Type = Type.INTERNET;
-						Vendor = otherArr[RandomNumber(otherArr.length)].toString();
+						amount = (double) Math.round(randomNumber(999)/10.0);
+						category = category.OTHER;
+						type = type.INTERNET;
+						vendor = otherArr[randomNumber(otherArr.length)].toString();
 						break;
 				}
 				
-				TransactionDate = TransactionDate(RandomNumber(365));
+				transactionDate = getTransactionDate(randomNumber(365));
 				
-				_transaction.add(new Transaction(Amount, Category, TransactionDate, Type, Vendor));
+				_transaction.add(new Transaction(amount, category, transactionDate, type, vendor));
 			}
 			return true;
 			
@@ -78,13 +78,13 @@ public class StatementService implements IStatementService{
 	}
 
 	@Override
-	public Boolean ReadStatement() {
+	public Boolean readStatement() {
 		try {
 			if(_transaction.size() == 0) {
 				return false;
 			}
-			for(Transaction t : _transaction) {
-				System.out.print(t.toString()+ "\n");
+			for(Transaction transaction : _transaction) {
+				System.out.print(transaction.toString()+ "\n");
 			}
 			return true;
 		}catch(Exception e){
@@ -93,7 +93,7 @@ public class StatementService implements IStatementService{
 	}
 
 	@Override
-	public Boolean SortStatement() {
+	public Boolean sortStatement() {
 		try {
 			if(_transaction.size() == 0) {
 				return false;
@@ -108,75 +108,7 @@ public class StatementService implements IStatementService{
 	}
 	
 	@Override
-	public List<Transaction> filterTransactionsByCategory(Enum<Category> category) {
-		try {
-			List<Transaction> temp = _transaction.stream().filter(x -> x.getCategory()== category).toList();
-			return temp;
-		}catch(Exception e) {
-			return null;
-		}
-	}
-	
-	@Override
-	public List<Integer> GetCategoryYear(List<Transaction> transactionList) {
-		try {
-			List<Integer> temp = new ArrayList<Integer>();
-			int year = transactionList.get(0).getTransactionDate().getYear();
-			temp.add(year);
-			for(int i = 0; i < transactionList.size(); i ++) {
-				if(year < transactionList.get(i).getTransactionDate().getYear()) {
-					year = transactionList.get(i).getTransactionDate().getYear();
-					temp.add(year);
-				}
-			}
-			return temp;
-		}catch(Exception e){
-			return null;
-		}
-	}
-	
-	@Override
-	public Boolean HighestSpend(Enum<Category> category, int year) {
-		try {
-			List<Transaction> temp = _transaction.stream().filter(x -> x.getCategory()== category).filter(x -> x.getTransactionDate().getYear() == year).toList();
-			
-			Double total = 0.0;
-			for(int i = 0; i < temp.size(); i++) {
-				if (temp.get(i).getAmount() > total) {
-					total = temp.get(i).getAmount();
-				}
-			}
-			
-			System.out.println(String.format("Highest Spend For Category: %s For Year : %s = %s", category, year, total));
-			
-			return true;
-		}catch(Exception e) {
-			return null;
-		}
-	}
-	
-	@Override
-	public Boolean LowestSpend(Enum<Category> category, int year) {
-		try {
-			List<Transaction> temp = _transaction.stream().filter(x -> x.getCategory()== category).filter(x -> x.getTransactionDate().getYear() == year).toList();
-			
-			Double total = temp.get(0).getAmount();
-			for(int i = 0; i < temp.size(); i++) {
-				if (temp.get(i).getAmount() < total) {
-					total = temp.get(i).getAmount();
-				}
-			}
-			
-			System.out.println(String.format("Lowest Spend For Category: %s For Year : %s = %s", category, year, total));
-			
-			return true;
-		}catch(Exception e) {
-			return null;
-		}
-	}
-	
-	@Override
-	public Boolean TotalPerCategory() {
+	public Boolean totalAmountPerCategory() {
 		try {
 			String category1 = "";
 			String category2 = "";
@@ -209,31 +141,89 @@ public class StatementService implements IStatementService{
 		}
 	}
 	
-	
-	private int RandomNumber(int range) {
-		Random randomNumber = new Random();
-		return randomNumber.nextInt(range);
-	}
-	
-	private LocalDate TransactionDate(int days) {
-		LocalDate date = LocalDate.now();
-		return date.minusDays(days);
-	}
-
 	@Override
-	public Boolean monthlyAverageSpendForCategory(Enum<Category> category) {
+	public List<Transaction> filterTransactionsByCategory(Enum<Category> category) {
 		try {
-			List<Transaction> temp = _transaction.stream().filter(x -> x.getCategory()== category).toList();
-			int size = temp.size();
-			LocalDate startDate = temp.get(0).getTransactionDate();
-			LocalDate endDate = temp.get(size-1).getTransactionDate();
+			List<Transaction> transactionList = _transaction.stream().filter(x -> x.getCategory()== category).toList();
+			return transactionList;
+		}catch(Exception e) {
+			return null;
+		}
+	}
+	
+	@Override
+	public List<Integer> getCategoryYear(List<Transaction> transactionList) {
+		try {
+			List<Integer> integerList = new ArrayList<Integer>();
+			int year = transactionList.get(0).getTransactionDate().getYear();
+			integerList.add(year);
+			for(int i = 0; i < transactionList.size(); i ++) {
+				if(year < transactionList.get(i).getTransactionDate().getYear()) {
+					year = transactionList.get(i).getTransactionDate().getYear();
+					integerList.add(year);
+				}
+			}
+			return integerList;
+		}catch(Exception e){
+			return null;
+		}
+	}
+	
+	@Override
+	public Boolean highestSpendByCategory(Enum<Category> category, int year) {
+		try {
+			List<Transaction> transactionList = _transaction.stream().filter(x -> x.getCategory()== category).filter(x -> x.getTransactionDate().getYear() == year).toList();
+			
+			Double total = 0.0;
+			for(int i = 0; i < transactionList.size(); i++) {
+				if (transactionList.get(i).getAmount() > total) {
+					total = transactionList.get(i).getAmount();
+				}
+			}
+			
+			System.out.println(String.format("Highest Spend For Category: %s For Year : %s = %s", category, year, total));
+			
+			return true;
+		}catch(Exception e) {
+			return null;
+		}
+	}
+	
+	@Override
+	public Boolean lowestSpendByCategory(Enum<Category> category, int year) {
+		try {
+			List<Transaction> transactionList = _transaction.stream().filter(x -> x.getCategory()== category).filter(x -> x.getTransactionDate().getYear() == year).toList();
+			
+			Double total = transactionList.get(0).getAmount();
+			for(int i = 0; i < transactionList.size(); i++) {
+				if (transactionList.get(i).getAmount() < total) {
+					total = transactionList.get(i).getAmount();
+				}
+			}
+			
+			System.out.println(String.format("Lowest Spend For Category: %s For Year : %s = %s", category, year, total));
+			
+			return true;
+		}catch(Exception e) {
+			return null;
+		}
+	}
+	
+	
+	
+	@Override
+	public Boolean monthlyAverageSpendByCategory(Enum<Category> category) {
+		try {
+			List<Transaction> transactionList = _transaction.stream().filter(x -> x.getCategory()== category).toList();
+			int size = transactionList.size();
+			LocalDate startDate = transactionList.get(0).getTransactionDate();
+			LocalDate endDate = transactionList.get(size-1).getTransactionDate();
 			
 			long dateDiff = ChronoUnit.MONTHS.between(startDate, endDate);
 			int months = (int)dateDiff;
 			
-			
 			Double total = 0.0;
-			for(Transaction t : temp) {
+			for(Transaction t : transactionList) {
 				total += t.getAmount();
 			}
 			
@@ -246,10 +236,14 @@ public class StatementService implements IStatementService{
 			return false;
 		}
 	}
-
 	
-
+	private int randomNumber(int range) {
+		Random randomNumber = new Random();
+		return randomNumber.nextInt(range);
+	}
 	
-
-	
+	private LocalDate getTransactionDate(int days) {
+		LocalDate date = LocalDate.now();
+		return date.minusDays(days);
+	}
 }

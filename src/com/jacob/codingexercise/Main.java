@@ -62,7 +62,7 @@ public class Main {
 		List<Transaction> transactionList = new ArrayList<Transaction>();
 		IStatementService statement = new StatementService(transactionList);
 		statement.addTransaction(20);
-		statement.SortStatement();
+		statement.sortStatement();
 		return statement;
 	}
 	
@@ -119,7 +119,7 @@ public class Main {
 	}
 	
 	private static void option2(IStatementService statement) {
-		statement.TotalPerCategory();	
+		statement.totalAmountPerCategory();	
 	}
 	
 	private static void option3() {
@@ -145,17 +145,17 @@ public class Main {
 				switch(option) {
 				case 1:
 					t = statement.filterTransactionsByCategory(Category.DD);
-					iList = statement.GetCategoryYear(t);
+					iList = statement.getCategoryYear(t);
 					option7(statement, Category.DD, iList);
 					break;
 				case 2:
 					t = statement.filterTransactionsByCategory(Category.GROCERIES);
-					iList = statement.GetCategoryYear(t);
+					iList = statement.getCategoryYear(t);
 					option7(statement, Category.GROCERIES,  iList);
 					break;
 				case 3:
 					t = statement.filterTransactionsByCategory(Category.OTHER);
-					iList = statement.GetCategoryYear(t);
+					iList = statement.getCategoryYear(t);
 					option7(statement, Category.OTHER,  iList);
 					break;
 				case 4:
@@ -187,17 +187,17 @@ public class Main {
 				switch(option) {
 				case 1:
 					t = statement.filterTransactionsByCategory(Category.DD);
-					iList = statement.GetCategoryYear(t);
+					iList = statement.getCategoryYear(t);
 					option8(statement, Category.DD, iList);
 					break;
 				case 2:
 					t = statement.filterTransactionsByCategory(Category.GROCERIES);
-					iList = statement.GetCategoryYear(t);
+					iList = statement.getCategoryYear(t);
 					option8(statement, Category.GROCERIES,  iList);
 					break;
 				case 3:
 					t = statement.filterTransactionsByCategory(Category.OTHER);
-					iList = statement.GetCategoryYear(t);
+					iList = statement.getCategoryYear(t);
 					option8(statement, Category.OTHER,  iList);
 					break;
 				case 4:
@@ -225,7 +225,7 @@ public class Main {
 			try {
 				option = scanner.nextInt();
 				if(iList.contains(option)) {
-					statement.HighestSpend(category, option);
+					statement.highestSpendByCategory(category, option);
 					return;
 				}
 				else {
@@ -248,7 +248,7 @@ public class Main {
 			try {
 				option = scanner.nextInt();
 				if(iList.contains(option)) {
-					statement.LowestSpend(category, option);
+					statement.lowestSpendByCategory(category, option);
 					return;
 				}
 				else {

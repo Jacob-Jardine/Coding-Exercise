@@ -17,107 +17,107 @@ import com.jacob.codingexercise.service.StatementService;
 class StatementServiceTest {
 	@Test
 	void addTransactionIsFalse() {
-		List<Transaction> t = new ArrayList<Transaction>();
-		IStatementService statement = new StatementService(t);
+		List<Transaction> transactionList = new ArrayList<Transaction>();
+		IStatementService statement = new StatementService(transactionList);
 		assertFalse(statement.addTransaction(0));
 	}
 
 	@Test
 	void addTransactionIsTrue() {
-		List<Transaction> t = new ArrayList<Transaction>();
-		IStatementService statement = new StatementService(t);
+		List<Transaction> transactionList = new ArrayList<Transaction>();
+		IStatementService statement = new StatementService(transactionList);
 		
 		assertTrue(statement.addTransaction(1));
 	}
 	
 	@Test
 	void addTransactionException() {
-		List<Transaction> t = null;
-		IStatementService statement = new StatementService(t);
+		List<Transaction> transactionList = null;
+		IStatementService statement = new StatementService(transactionList);
 		
 		assertFalse(statement.addTransaction(1));
 	}
 	
 	@Test
 	void isCorrectSize() {
-		List<Transaction> t = new ArrayList<Transaction>();
-		IStatementService statement = new StatementService(t);
+		List<Transaction> transactionList = new ArrayList<Transaction>();
+		IStatementService statement = new StatementService(transactionList);
 		
 		int size = 5;
 		
 		statement.addTransaction(size);
 	
-		assertEquals(t.size(), size);
+		assertEquals(transactionList.size(), size);
 	}
 	
 	@Test
 	void isIncorrectSize() {
-		List<Transaction> t = new ArrayList<Transaction>();
-		IStatementService statement = new StatementService(t);
+		List<Transaction> transactionList = new ArrayList<Transaction>();
+		IStatementService statement = new StatementService(transactionList);
 		
 		int size = 5;
 		
 		statement.addTransaction(10);
 	
-		assertNotEquals(t.size(), size);
+		assertNotEquals(transactionList.size(), size);
 	}
 	
 	@Test
 	void readStatementFalse() {
-		List<Transaction> t = new ArrayList<Transaction>();
-		IStatementService statement = new StatementService(t);
+		List<Transaction> transactionList = new ArrayList<Transaction>();
+		IStatementService statement = new StatementService(transactionList);
 		
-		assertFalse(statement.ReadStatement());
+		assertFalse(statement.readStatement());
 	}
 	
 	@Test
 	void readStatementTrue() {
-		List<Transaction> t = new ArrayList<Transaction>();
-		IStatementService statement = new StatementService(t);
+		List<Transaction> transactionList = new ArrayList<Transaction>();
+		IStatementService statement = new StatementService(transactionList);
 						
 		statement.addTransaction(10);
 		
-		assertTrue(statement.ReadStatement());
+		assertTrue(statement.readStatement());
 	}
 	
 	@Test
 	void readStatementException() {
-		List<Transaction> t = null;
-		IStatementService statement = new StatementService(t);
+		List<Transaction> transactionList = null;
+		IStatementService statement = new StatementService(transactionList);
 						
-		assertFalse(statement.ReadStatement());
+		assertFalse(statement.readStatement());
 	}
 	
 	@Test
 	void sortStatementFalse() {
-		List<Transaction> t = new ArrayList<Transaction>();
-		IStatementService statement = new StatementService(t);
+		List<Transaction> transactionList = new ArrayList<Transaction>();
+		IStatementService statement = new StatementService(transactionList);
 		
-		assertFalse(statement.SortStatement());
+		assertFalse(statement.sortStatement());
 	}
 	
 	@Test
 	void sortStatementTrue() {
-		List<Transaction> t = new ArrayList<Transaction>();
-		IStatementService statement = new StatementService(t);
+		List<Transaction> transactionList = new ArrayList<Transaction>();
+		IStatementService statement = new StatementService(transactionList);
 		
 		statement.addTransaction(10);
 		
-		assertTrue(statement.SortStatement());
+		assertTrue(statement.sortStatement());
 	}
 	
 	@Test
 	void sortStatementException() {
-		List<Transaction> t = null;
-		IStatementService statement = new StatementService(t);
+		List<Transaction> transactionList = null;
+		IStatementService statement = new StatementService(transactionList);
 		
-		assertFalse(statement.SortStatement());
+		assertFalse(statement.sortStatement());
 	}
 	
 	@Test
 	void filterTransactionsByCategoryException() {
-		List<Transaction> t = null;
-		IStatementService statement = new StatementService(t);
+		List<Transaction> transactionList = null;
+		IStatementService statement = new StatementService(transactionList);
 		Category category = Category.DD;
 		
 		assertNull(statement.filterTransactionsByCategory(category));
@@ -125,8 +125,8 @@ class StatementServiceTest {
 	
 	@Test
 	void allTransactionForCategoryDDTrue() {
-		List<Transaction> t = new ArrayList<Transaction>();
-		IStatementService statement = new StatementService(t);
+		List<Transaction> transactionList = new ArrayList<Transaction>();
+		IStatementService statement = new StatementService(transactionList);
 		Category category = Category.DD;
 		
 		statement.addTransaction(10);
@@ -139,8 +139,8 @@ class StatementServiceTest {
 	
 	@Test
 	void allTransactionForCategoryDirectDebitDoesntContainOtherValues() {
-		List<Transaction> t = new ArrayList<Transaction>();
-		IStatementService statement = new StatementService(t);
+		List<Transaction> transactionList = new ArrayList<Transaction>();
+		IStatementService statement = new StatementService(transactionList);
 		Category category = Category.DD;
 		
 		statement.addTransaction(10);
@@ -153,8 +153,8 @@ class StatementServiceTest {
 	
 	@Test
 	void allTransactionForCategoryGroceriesTrue() {
-		List<Transaction> t = new ArrayList<Transaction>();
-		IStatementService statement = new StatementService(t);
+		List<Transaction> transactionList = new ArrayList<Transaction>();
+		IStatementService statement = new StatementService(transactionList);
 		Category category = Category.GROCERIES;
 		
 		statement.addTransaction(10);
@@ -167,8 +167,8 @@ class StatementServiceTest {
 	
 	@Test
 	void allTransactionForCategoryGroceriesDoesntContainOtherValues() {
-		List<Transaction> t = new ArrayList<Transaction>();
-		IStatementService statement = new StatementService(t);
+		List<Transaction> transactionList = new ArrayList<Transaction>();
+		IStatementService statement = new StatementService(transactionList);
 		Category category = Category.GROCERIES;
 		
 		statement.addTransaction(10);
@@ -181,8 +181,8 @@ class StatementServiceTest {
 	
 	@Test
 	void allTransactionForCategoryOtherTrue() {
-		List<Transaction> t = new ArrayList<Transaction>();
-		IStatementService statement = new StatementService(t);
+		List<Transaction> transactionList = new ArrayList<Transaction>();
+		IStatementService statement = new StatementService(transactionList);
 		Category category = Category.OTHER;
 		
 		statement.addTransaction(10);
@@ -195,8 +195,8 @@ class StatementServiceTest {
 	
 	@Test
 	void allTransactionForCategoryOtherDoesntContainOtherValues() {
-		List<Transaction> t = new ArrayList<Transaction>();
-		IStatementService statement = new StatementService(t);
+		List<Transaction> transactionList = new ArrayList<Transaction>();
+		IStatementService statement = new StatementService(transactionList);
 		Category category = Category.OTHER;
 		
 		statement.addTransaction(10);
@@ -209,44 +209,44 @@ class StatementServiceTest {
 	
 	@Test
 	void getCategoryYearException() {
-		List<Transaction> t = new ArrayList<Transaction>();
-		IStatementService statement = new StatementService(t);
+		List<Transaction> transactionList = new ArrayList<Transaction>();
+		IStatementService statement = new StatementService(transactionList);
 		
-		assertNull(statement.GetCategoryYear(t));
+		assertNull(statement.getCategoryYear(transactionList));
 	}
 	
 	@Test
 	void getCategoryYearTrue() {
-		List<Transaction> t = new ArrayList<Transaction>();
-		IStatementService statement = new StatementService(t);
+		List<Transaction> transactionList = new ArrayList<Transaction>();
+		IStatementService statement = new StatementService(transactionList);
 		
 		Transaction t1 = new Transaction(1.1, Category.DD, LocalDate.now().minusYears(1), Type.DD, "CYBG");
 		Transaction t2 = new Transaction(1.1, Category.DD, LocalDate.now(), Type.DD, "CYBG");
-		t.add(t1);
-		t.add(t2);
+		transactionList.add(t1);
+		transactionList.add(t2);
 		
-		List<Integer> result = statement.GetCategoryYear(t);
+		List<Integer> result = statement.getCategoryYear(transactionList);
 		
-		for(int i = 0; i < t.size(); i++) {
-			assertEquals(result.get(i), t.get(i).getTransactionDate().getYear());
+		for(int i = 0; i < transactionList.size(); i++) {
+			assertEquals(result.get(i), transactionList.get(i).getTransactionDate().getYear());
 		}
 	}
 	
 	@Test
 	void highestSpendException() {
-		List<Transaction> t = null;
-		IStatementService statement = new StatementService(t);
+		List<Transaction> transactionList = null;
+		IStatementService statement = new StatementService(transactionList);
 		
 		Category category = Category.DD;
 		int year = LocalDate.now().getYear();
 		
-		assertNull(statement.HighestSpend(category, year));
+		assertNull(statement.highestSpendByCategory(category, year));
 	}
 	
 	@Test
 	void highestSpendTrue() {
-		List<Transaction> t = new ArrayList<Transaction>();
-		IStatementService statement = new StatementService(t);
+		List<Transaction> transactionList = new ArrayList<Transaction>();
+		IStatementService statement = new StatementService(transactionList);
 		
 		Category category = Category.DD;
 		int year = LocalDate.now().getYear();
@@ -254,28 +254,28 @@ class StatementServiceTest {
 		Transaction t1 = new Transaction(1.1, Category.DD, LocalDate.now().minusYears(1), Type.DD, "CYBG");
 		Transaction t2 = new Transaction(1.1, Category.DD, LocalDate.now(), Type.DD, "CYBG");
 		Transaction t3 = new Transaction(10.10, Category.DD, LocalDate.now(), Type.DD, "CYBG");
-		t.add(t1);
-		t.add(t2);
-		t.add(t3);
+		transactionList.add(t1);
+		transactionList.add(t2);
+		transactionList.add(t3);
 
-		assertTrue(statement.HighestSpend(category, year));
+		assertTrue(statement.highestSpendByCategory(category, year));
 	}
 	
 	@Test
 	void lowestSpendException() {
-		List<Transaction> t = null;
-		IStatementService statement = new StatementService(t);
+		List<Transaction> transactionList = null;
+		IStatementService statement = new StatementService(transactionList);
 		
 		Category category = Category.DD;
 		int year = LocalDate.now().getYear();
 		
-		assertNull(statement.LowestSpend(category, year));
+		assertNull(statement.lowestSpendByCategory(category, year));
 	}
 	
 	@Test
 	void lowestSpendTrue() {
-		List<Transaction> t = new ArrayList<Transaction>();
-		IStatementService statement = new StatementService(t);
+		List<Transaction> transactionList = new ArrayList<Transaction>();
+		IStatementService statement = new StatementService(transactionList);
 		
 		Category category = Category.DD;
 		int year = LocalDate.now().getYear();
@@ -283,50 +283,50 @@ class StatementServiceTest {
 		Transaction t1 = new Transaction(1.1, Category.DD, LocalDate.now().minusYears(1), Type.DD, "CYBG");
 		Transaction t2 = new Transaction(10.10, Category.DD, LocalDate.now(), Type.DD, "CYBG");
 		Transaction t3 = new Transaction(1.1, Category.DD, LocalDate.now(), Type.DD, "CYBG");
-		t.add(t1);
-		t.add(t2);
-		t.add(t3);
+		transactionList.add(t1);
+		transactionList.add(t2);
+		transactionList.add(t3);
 
-		assertTrue(statement.LowestSpend(category, year));
+		assertTrue(statement.lowestSpendByCategory(category, year));
 	}
 	
 	@Test
 	void totalPerCategoryException() {
-		List<Transaction> t = null;
-		IStatementService statement = new StatementService(t);
+		List<Transaction> transactionList = null;
+		IStatementService statement = new StatementService(transactionList);
 		
-		assertFalse(statement.TotalPerCategory());
+		assertFalse(statement.totalAmountPerCategory());
 	}
 	
 	@Test
 	void totalPerCategoryTrue() {
-		List<Transaction> t = new ArrayList<Transaction>();
-		IStatementService statement = new StatementService(t);
+		List<Transaction> transactionList = new ArrayList<Transaction>();
+		IStatementService statement = new StatementService(transactionList);
 		
 		statement.addTransaction(10);
 		
-		statement.SortStatement();
+		statement.sortStatement();
 		
-		assertTrue(statement.TotalPerCategory());
+		assertTrue(statement.totalAmountPerCategory());
 	}
 	
 	@Test
 	void monthlyAverageSpendForCategory() {
-		List<Transaction> t = new ArrayList<Transaction>();
-		IStatementService statement = new StatementService(t);
+		List<Transaction> transactionList = new ArrayList<Transaction>();
+		IStatementService statement = new StatementService(transactionList);
 		
 		statement.addTransaction(20);
 		
-		statement.SortStatement();
+		statement.sortStatement();
 		
-		assertTrue(statement.monthlyAverageSpendForCategory(Category.DD));
+		assertTrue(statement.monthlyAverageSpendByCategory(Category.DD));
 	}
 	
 	@Test
 	void monthlyAverageSpendForCategoryException() {
-		List<Transaction> t = null;
-		IStatementService statement = new StatementService(t);
+		List<Transaction> transactionList = null;
+		IStatementService statement = new StatementService(transactionList);
 		
-		assertFalse(statement.monthlyAverageSpendForCategory(null));
+		assertFalse(statement.monthlyAverageSpendByCategory(null));
 	}
 }

@@ -6,12 +6,20 @@ import java.util.List;
 
 public interface IStatementService {
 	public Boolean addTransaction(int numOfTransactions);
-	public Boolean ReadStatement();
-	public Boolean SortStatement();
-	public Boolean TotalPerCategory(); 
+	
+	public Boolean readStatement();
+	
+	public Boolean sortStatement();
+	
+	public Boolean totalAmountPerCategory(); 
+	
 	public List<Transaction> filterTransactionsByCategory(Enum<Category> category);
-	public List<Integer> GetCategoryYear(List<Transaction> transactionList);
-	public Boolean HighestSpend(Enum<Category> category, int year);
-	public Boolean LowestSpend(Enum<Category> category, int year);
-	public Boolean monthlyAverageSpendForCategory(Enum<Category> category);
+	
+	public List<Integer> getCategoryYear(List<Transaction> transactionList);
+	
+	public Boolean highestSpendByCategory(Enum<Category> category, int year);
+	
+	public Boolean lowestSpendByCategory(Enum<Category> category, int year);
+	
+	public Boolean monthlyAverageSpendByCategory(Enum<Category> category);
 }
