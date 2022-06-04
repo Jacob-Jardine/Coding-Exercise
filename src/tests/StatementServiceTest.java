@@ -351,4 +351,26 @@ class StatementServiceTest {
 		
 		assertNull(statement.monthlyAverageSpendByCategory(null));
 	}
+	
+	@Test
+	void assignCategoryException() {
+		List<Transaction> transactionList = null;
+		IStatementService statement = new StatementService(transactionList);
+		
+		assertNull(statement.assignCategory(null, null));
+	}
+	
+	@Test
+	void assignCategoryTrue() {
+		List<Transaction> transactionList = new ArrayList<Transaction>();
+		IStatementService statement = new StatementService(transactionList);
+		
+		Transaction t1 = new Transaction(10.0, Category.DD, LocalDate.now(), Type.DD, "CYBG");
+
+		transactionList.add(t1);
+		
+		statement.assignCategory(t1, Category.GROCERIES);
+		
+		assertTrue(t1.getCategory() == Category.GROCERIES);
+	}
 }

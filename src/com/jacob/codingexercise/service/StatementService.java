@@ -237,6 +237,17 @@ public class StatementService implements IStatementService{
 			return null;
 		}
 	}
+
+	@Override
+	public Boolean assignCategory(Transaction transaction, Enum<Category> category) {
+		try {
+			transaction.setCategory(category);
+			
+			return true;
+		}catch(Exception e) {
+			return null;
+		}
+	}
 	
 	private int randomNumber(int range) {
 		Random randomNumber = new Random();

@@ -23,4 +23,6 @@ public interface IStatementService {
 	public Double lowestSpendByCategory(Enum<Category> category, int year);
 	
 	public Double monthlyAverageSpendByCategory(Enum<Category> category);
+	
+	public Boolean assignCategory(Transaction transaction, Enum<Category> category);
 }
