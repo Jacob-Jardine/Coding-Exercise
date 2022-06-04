@@ -3,6 +3,7 @@ package com.jacob.codingexercise.service;
 import com.jacob.codingexercise.enums.Category;
 import com.jacob.codingexercise.model.Transaction;
 import java.util.List;
+import java.util.Map;
 
 public interface IStatementService {
 	public Boolean addTransaction(int numOfTransactions);
@@ -11,15 +12,15 @@ public interface IStatementService {
 	
 	public Boolean sortStatement();
 	
-	public Boolean totalAmountPerCategory(); 
+	public Map<Enum<Category>, Double> totalAmountPerCategory(); 
 	
 	public List<Transaction> filterTransactionsByCategory(Enum<Category> category);
 	
 	public List<Integer> getCategoryYear(List<Transaction> transactionList);
 	
-	public Boolean highestSpendByCategory(Enum<Category> category, int year);
+	public Double highestSpendByCategory(Enum<Category> category, int year);
 	
-	public Boolean lowestSpendByCategory(Enum<Category> category, int year);
+	public Double lowestSpendByCategory(Enum<Category> category, int year);
 	
-	public Boolean monthlyAverageSpendByCategory(Enum<Category> category);
+	public Double monthlyAverageSpendByCategory(Enum<Category> category);
 }

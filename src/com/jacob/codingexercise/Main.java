@@ -39,7 +39,7 @@ public class Main {
 					option2(Statement);
 					break;
 				case 3:
-					option3();
+					option3(Statement);
 					break;
 				case 4:
 					option4(Statement);
@@ -122,8 +122,40 @@ public class Main {
 		statement.totalAmountPerCategory();	
 	}
 	
-	private static void option3() {
-		System.out.println("Option3");
+	private static void option3(IStatementService statement) {
+		String[] options = {
+				"1- Direct Debit",
+				"2- Groceries",
+				"3- Other",
+				"4- Back"
+		};
+		
+		List<Transaction> t = new ArrayList<Transaction>();
+		List<Integer> iList = new ArrayList<Integer>();
+		Scanner scanner = new Scanner(System.in);
+		int option = 1;
+		while (true) {
+			PrintMenu(options);
+			try {
+				option = scanner.nextInt();
+				switch(option) {
+				case 1:
+					statement.monthlyAverageSpendByCategory(Category.DD);
+					break;
+				case 2:
+					statement.monthlyAverageSpendByCategory(Category.GROCERIES);
+					break;
+				case 3:
+					statement.monthlyAverageSpendByCategory(Category.OTHER);
+					break;
+				case 4:
+					return;
+				}
+			}catch(Exception e) {
+				System.out.println(String.format("Please enter an integer value between 1 and %s", options.length));
+				scanner.next();
+			}
+		}
 	}
 	
 	private static void option4(IStatementService statement) {

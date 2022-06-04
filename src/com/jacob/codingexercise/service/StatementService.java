@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -108,16 +109,17 @@ public class StatementService implements IStatementService{
 	}
 	
 	@Override
-	public Boolean totalAmountPerCategory() {
+	public Map<Enum<Category>, Double> totalAmountPerCategory() {
 		try {
+			HashMap<Enum<Category>, Double> totalMap = new HashMap<Enum<Category>, Double>();
 			String category1 = "";
 			String category2 = "";
-			List<String> totalList = new ArrayList<String>();
+			//List<String> totalList = new ArrayList<String>();
 			double total = 0.0;
 			for(int i = 0; i < _transaction.size(); i++) {
 				total = 0.0;
 				category1 = _transaction.get(i).getCategory().toString();
-				for(int j = 0; j < _transaction.size() -1; j++) {
+				for(int j = 0; j < _transaction.size(); j++) {
 					category2 = _transaction.get(j).getCategory().toString();
 					if(category1 == category2) {
 						total += _transaction.get(j).getAmount();
@@ -125,19 +127,19 @@ public class StatementService implements IStatementService{
 					
 				}
 				
-				if (totalList.size() == 0) {
-					totalList.add(_transaction.get(i).getCategory().toString() + " " + total);
+				if (totalMap.size() == 0) {
+					totalMap.put(_transaction.get(i).getCategory(), total);
 					System.out.println(_transaction.get(i).getCategory().toString() + " " + total);
 				}
-				if(!totalList.contains(_transaction.get(i).getCategory().toString() + " " + total)) {
-					totalList.add(_transaction.get(i).getCategory().toString() + " " + total);
+				if(!totalMap.containsKey(_transaction.get(i).getCategory())) {
+					totalMap.put(_transaction.get(i).getCategory(), total);
 					System.out.println(_transaction.get(i).getCategory().toString() + " " + total);
 				}
 				
 			}
-			return true;
+			return totalMap;
 		}catch(Exception e) {
-			return false;
+			return null;
 		}
 	}
 	
@@ -170,7 +172,7 @@ public class StatementService implements IStatementService{
 	}
 	
 	@Override
-	public Boolean highestSpendByCategory(Enum<Category> category, int year) {
+	public Double highestSpendByCategory(Enum<Category> category, int year) {
 		try {
 			List<Transaction> transactionList = _transaction.stream().filter(x -> x.getCategory()== category).filter(x -> x.getTransactionDate().getYear() == year).toList();
 			
@@ -183,14 +185,14 @@ public class StatementService implements IStatementService{
 			
 			System.out.println(String.format("Highest Spend For Category: %s For Year : %s = %s", category, year, total));
 			
-			return true;
+			return total;
 		}catch(Exception e) {
 			return null;
 		}
 	}
 	
 	@Override
-	public Boolean lowestSpendByCategory(Enum<Category> category, int year) {
+	public Double lowestSpendByCategory(Enum<Category> category, int year) {
 		try {
 			List<Transaction> transactionList = _transaction.stream().filter(x -> x.getCategory()== category).filter(x -> x.getTransactionDate().getYear() == year).toList();
 			
@@ -203,7 +205,7 @@ public class StatementService implements IStatementService{
 			
 			System.out.println(String.format("Lowest Spend For Category: %s For Year : %s = %s", category, year, total));
 			
-			return true;
+			return total;
 		}catch(Exception e) {
 			return null;
 		}
@@ -212,7 +214,7 @@ public class StatementService implements IStatementService{
 	
 	
 	@Override
-	public Boolean monthlyAverageSpendByCategory(Enum<Category> category) {
+	public Double monthlyAverageSpendByCategory(Enum<Category> category) {
 		try {
 			List<Transaction> transactionList = _transaction.stream().filter(x -> x.getCategory()== category).toList();
 			int size = transactionList.size();
@@ -231,9 +233,9 @@ public class StatementService implements IStatementService{
 			
 			System.out.println(String.format("Monthly Average Spend For: %s = %s", category, average));
 			
-			return true;
+			return average;
 		}catch(Exception e) {
-			return false;
+			return null;
 		}
 	}
 	
