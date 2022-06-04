@@ -114,7 +114,6 @@ public class StatementService implements IStatementService{
 			HashMap<Enum<Category>, Double> totalMap = new HashMap<Enum<Category>, Double>();
 			String category1 = "";
 			String category2 = "";
-			//List<String> totalList = new ArrayList<String>();
 			double total = 0.0;
 			for(int i = 0; i < _transaction.size(); i++) {
 				total = 0.0;
