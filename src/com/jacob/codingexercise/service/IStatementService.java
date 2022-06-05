@@ -8,7 +8,7 @@ import java.util.Map;
 public interface IStatementService {
 	public Boolean addTransaction(int numOfTransactions);
 	
-	public Boolean readStatement();
+	public Boolean readStatement(List<Transaction> transactionList);
 	
 	public Boolean sortStatement();
 	
@@ -23,4 +23,6 @@ public interface IStatementService {
 	public Double lowestSpendByCategory(Enum<Category> category, int year);
 	
 	public Double monthlyAverageSpendByCategory(Enum<Category> category);
+	
+	public Boolean assignCategory(Transaction transaction, Enum<Category> category);
 }

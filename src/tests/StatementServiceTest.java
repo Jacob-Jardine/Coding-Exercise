@@ -71,7 +71,7 @@ class StatementServiceTest {
 		List<Transaction> transactionList = new ArrayList<Transaction>();
 		IStatementService statement = new StatementService(transactionList);
 		
-		assertFalse(statement.readStatement());
+		assertFalse(statement.readStatement(transactionList));
 	}
 	
 	@Test
@@ -81,7 +81,7 @@ class StatementServiceTest {
 						
 		statement.addTransaction(10);
 		
-		assertTrue(statement.readStatement());
+		assertTrue(statement.readStatement(transactionList));
 	}
 	
 	@Test
@@ -89,7 +89,7 @@ class StatementServiceTest {
 		List<Transaction> transactionList = null;
 		IStatementService statement = new StatementService(transactionList);
 						
-		assertFalse(statement.readStatement());
+		assertFalse(statement.readStatement(transactionList));
 	}
 	
 	@Test
@@ -350,5 +350,38 @@ class StatementServiceTest {
 		IStatementService statement = new StatementService(transactionList);
 		
 		assertNull(statement.monthlyAverageSpendByCategory(null));
+	}
+	
+	@Test
+	void monthlyAverageSpendForCategorSize1() {
+		List<Transaction> transactionList = new ArrayList<Transaction>();
+		IStatementService statement = new StatementService(transactionList);
+		
+		Transaction t1 = new Transaction(10.0, Category.DD, LocalDate.now(), Type.DD, "CYBG");
+		transactionList.add(t1);
+		
+		assertEquals(statement.monthlyAverageSpendByCategory(Category.DD), t1.getAmount());
+	}
+	
+	@Test
+	void assignCategoryException() {
+		List<Transaction> transactionList = null;
+		IStatementService statement = new StatementService(transactionList);
+		
+		assertNull(statement.assignCategory(null, null));
+	}
+	
+	@Test
+	void assignCategoryTrue() {
+		List<Transaction> transactionList = new ArrayList<Transaction>();
+		IStatementService statement = new StatementService(transactionList);
+		
+		Transaction t1 = new Transaction(10.0, Category.DD, LocalDate.now(), Type.DD, "CYBG");
+
+		transactionList.add(t1);
+		
+		statement.assignCategory(t1, Category.GROCERIES);
+		
+		assertTrue(t1.getCategory() == Category.GROCERIES);
 	}
 }

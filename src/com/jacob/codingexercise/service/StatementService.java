@@ -79,13 +79,15 @@ public class StatementService implements IStatementService{
 	}
 
 	@Override
-	public Boolean readStatement() {
+	public Boolean readStatement(List<Transaction> transactionList) {
 		try {
-			if(_transaction.size() == 0) {
+			if(transactionList.size() == 0) {
 				return false;
 			}
-			for(Transaction transaction : _transaction) {
-				System.out.print(transaction.toString()+ "\n");
+			int i = 0;
+			for(Transaction transaction : transactionList) {
+				System.out.print(i + transaction.toString()+ "\n");
+				i++;
 			}
 			return true;
 		}catch(Exception e){
@@ -217,6 +219,12 @@ public class StatementService implements IStatementService{
 		try {
 			List<Transaction> transactionList = _transaction.stream().filter(x -> x.getCategory()== category).toList();
 			int size = transactionList.size();
+			
+			if(size == 1) {
+				System.out.println(String.format("Monthly Average Spend For: %s = %s", category, transactionList.get(0).getAmount()));
+				return transactionList.get(0).getAmount();
+			}
+			
 			LocalDate startDate = transactionList.get(0).getTransactionDate();
 			LocalDate endDate = transactionList.get(size-1).getTransactionDate();
 			
@@ -224,6 +232,8 @@ public class StatementService implements IStatementService{
 			int months = (int)dateDiff;
 			
 			Double total = 0.0;
+			
+			
 			for(Transaction t : transactionList) {
 				total += t.getAmount();
 			}
@@ -233,6 +243,17 @@ public class StatementService implements IStatementService{
 			System.out.println(String.format("Monthly Average Spend For: %s = %s", category, average));
 			
 			return average;
+		}catch(Exception e) {
+			return null;
+		}
+	}
+
+	@Override
+	public Boolean assignCategory(Transaction transaction, Enum<Category> category) {
+		try {
+			transaction.setCategory(category);
+			sortStatement();
+			return true;
 		}catch(Exception e) {
 			return null;
 		}
