@@ -29,31 +29,30 @@ public class Main {
 		Scanner scanner = new Scanner(System.in);
 		int option = 1;
 		while (true) {
-			PrintMenu(options);
+			printMenu(options);
 			try {
 				option = scanner.nextInt();
 				switch(option) {
 				case 1:
-					option9(Statement);
-					break;
-				case 2:
 					option1(Statement);
 					break;
-				case 3:
+				case 2:
 					option2(Statement);
 					break;
-				case 4:
+				case 3:
 					option3(Statement);
 					break;
-				case 5:
+				case 4:
 					option4(Statement);
 					break;
-				case 6:
+				case 5:
 					option5(Statement);
 					break;
+				case 6:
+					option6(Statement);
+					break;
 				case 7:
-					//scanner.close();
-					option6();
+					exitApplication();
 					break;
 				}
 			}catch(Exception e) {
@@ -71,13 +70,12 @@ public class Main {
 		return statement;
 	}
 	
-	public static void PrintMenu(String[] options) {
+	public static void printMenu(String[] options) {
 		for(String option : options) {
 			System.out.println(option);
 		}
 	}
 	
-	// Options
 	private static void option1(IStatementService statement) {
 		String[] options = {
 				"1- Direct Debit",
@@ -91,7 +89,50 @@ public class Main {
 		Scanner scanner = new Scanner(System.in);
 		int option = 1;
 		while (true) {
-			PrintMenu(options);
+			System.out.println("Select category to view transactions");
+			printMenu(options);
+			try {
+				option = scanner.nextInt();
+				switch(option) {
+				case 1:
+					t = statement.filterTransactionsByCategory(Category.DD);
+					statement.readStatement(t);
+					option7(statement, t);
+					break;
+				case 2:
+					t = statement.filterTransactionsByCategory(Category.GROCERIES);
+					statement.readStatement(t);
+					option7(statement, t);
+					break;
+				case 3:
+					t = statement.filterTransactionsByCategory(Category.OTHER);
+					statement.readStatement(t);
+					option7(statement, t);
+					break;
+				case 4:
+					return;
+				}
+			}catch(Exception e) {
+				System.out.println(String.format("Please enter an integer value between 1 and %s", options.length));
+				scanner.next();
+			}
+		}
+	}
+	
+	private static void option2(IStatementService statement) {
+		String[] options = {
+				"1- Direct Debit",
+				"2- Groceries",
+				"3- Other",
+				"4- Back"
+		};
+		
+		List<Transaction> t = new ArrayList<Transaction>();
+		
+		Scanner scanner = new Scanner(System.in);
+		int option = 1;
+		while (true) {
+			printMenu(options);
 			try {
 				option = scanner.nextInt();
 				switch(option) {
@@ -108,7 +149,6 @@ public class Main {
 					statement.readStatement(t);
 					break;
 				case 4:
-					//scanner.close();
 					return;
 				}
 			}catch(Exception e) {
@@ -118,24 +158,22 @@ public class Main {
 		}
 	}
 	
-	private static void option2(IStatementService statement) {
+	private static void option3(IStatementService statement) {
 		statement.totalAmountPerCategory();	
 	}
 	
-	private static void option3(IStatementService statement) {
+	private static void option4(IStatementService statement) {
 		String[] options = {
 				"1- Direct Debit",
 				"2- Groceries",
 				"3- Other",
 				"4- Back"
 		};
-		
-		//List<Transaction> t = new ArrayList<Transaction>();
-		//List<Integer> iList = new ArrayList<Integer>();
+
 		Scanner scanner = new Scanner(System.in);
 		int option = 1;
 		while (true) {
-			PrintMenu(options);
+			printMenu(options);
 			try {
 				option = scanner.nextInt();
 				switch(option) {
@@ -147,48 +185,6 @@ public class Main {
 					break;
 				case 3:
 					statement.monthlyAverageSpendByCategory(Category.OTHER);
-					break;
-				case 4:
-					return;
-				}
-			}catch(Exception e) {
-				System.out.println(String.format("Please enter an integer value between 1 and %s", options.length));
-				scanner.next();
-			}
-		}
-	}
-	
-	private static void option4(IStatementService statement) {
-		String[] options = {
-				"1- Direct Debit",
-				"2- Groceries",
-				"3- Other",
-				"4- Back"
-		};
-		
-		List<Transaction> t = new ArrayList<Transaction>();
-		List<Integer> iList = new ArrayList<Integer>();
-		Scanner scanner = new Scanner(System.in);
-		int option = 1;
-		while (true) {
-			PrintMenu(options);
-			try {
-				option = scanner.nextInt();
-				switch(option) {
-				case 1:
-					t = statement.filterTransactionsByCategory(Category.DD);
-					iList = statement.getCategoryYear(t);
-					option7(statement, Category.DD, iList);
-					break;
-				case 2:
-					t = statement.filterTransactionsByCategory(Category.GROCERIES);
-					iList = statement.getCategoryYear(t);
-					option7(statement, Category.GROCERIES,  iList);
-					break;
-				case 3:
-					t = statement.filterTransactionsByCategory(Category.OTHER);
-					iList = statement.getCategoryYear(t);
-					option7(statement, Category.OTHER,  iList);
 					break;
 				case 4:
 					return;
@@ -213,7 +209,7 @@ public class Main {
 		Scanner scanner = new Scanner(System.in);
 		int option = 1;
 		while (true) {
-			PrintMenu(options);
+			printMenu(options);
 			try {
 				option = scanner.nextInt();
 				switch(option) {
@@ -242,59 +238,7 @@ public class Main {
 		}
 	}
 	
-	private static void option6() {
-		System.out.println("Exiting");
-		System.exit(0);
-	}
-	
-	private static void option7(IStatementService statement, Enum<Category> category, List<Integer> iList) {
-		Scanner scanner = new Scanner(System.in);
-		int option = 1;
-		while (true) {
-			for(Integer item : iList) {
-				System.out.println(item);
-			}
-			try {
-				option = scanner.nextInt();
-				if(iList.contains(option)) {
-					statement.highestSpendByCategory(category, option);
-					return;
-				}
-				else {
-					return;
-				}
-			}catch(Exception e) {
-				System.out.println(String.format("Please enter a year within range"));
-				return;
-			}
-		}
-	}
-	
-	private static void option8(IStatementService statement, Enum<Category> category, List<Integer> iList) {
-		Scanner scanner = new Scanner(System.in);
-		int option = 1;
-		
-		while (true) {
-			for(Integer item : iList) {
-				System.out.println(item);
-			}
-			try {
-				option = scanner.nextInt();
-				if(iList.contains(option)) {
-					statement.lowestSpendByCategory(category, option);
-					return;
-				}
-				else {
-					return;
-				}
-			}catch(Exception e) {
-				System.out.println(String.format("Please enter a year within range"));
-				return;
-			}
-		}
-	}
-	
-	private static void option9(IStatementService statement) {
+	private static void option6(IStatementService statement) {
 		String[] options = {
 				"1- Direct Debit",
 				"2- Groceries",
@@ -303,29 +247,28 @@ public class Main {
 		};
 		
 		List<Transaction> t = new ArrayList<Transaction>();
-		
+		List<Integer> iList = new ArrayList<Integer>();
 		Scanner scanner = new Scanner(System.in);
 		int option = 1;
 		while (true) {
-			System.out.println("Select category to view transactions");
-			PrintMenu(options);
+			printMenu(options);
 			try {
 				option = scanner.nextInt();
 				switch(option) {
 				case 1:
 					t = statement.filterTransactionsByCategory(Category.DD);
-					statement.readStatement(t);
-					option10(statement, t);
+					iList = statement.getCategoryYear(t);
+					option9(statement, Category.DD, iList);
 					break;
 				case 2:
 					t = statement.filterTransactionsByCategory(Category.GROCERIES);
-					statement.readStatement(t);
-					option10(statement, t);
+					iList = statement.getCategoryYear(t);
+					option9(statement, Category.GROCERIES,  iList);
 					break;
 				case 3:
 					t = statement.filterTransactionsByCategory(Category.OTHER);
-					statement.readStatement(t);
-					option10(statement, t);
+					iList = statement.getCategoryYear(t);
+					option9(statement, Category.OTHER,  iList);
 					break;
 				case 4:
 					return;
@@ -337,7 +280,8 @@ public class Main {
 		}
 	}
 	
-	private static void option10(IStatementService statement, List<Transaction> transactionList) {
+	
+	private static void option7(IStatementService statement, List<Transaction> transactionList) {
 		Scanner scanner = new Scanner(System.in);
 		int option = 1;
 		int nextOption = 1;
@@ -382,5 +326,57 @@ public class Main {
 				scanner.next();
 			}
 		}
+	}
+	
+	private static void option8(IStatementService statement, Enum<Category> category, List<Integer> iList) {
+		Scanner scanner = new Scanner(System.in);
+		int option = 1;
+		while (true) {
+			for(Integer item : iList) {
+				System.out.println(item);
+			}
+			try {
+				option = scanner.nextInt();
+				if(iList.contains(option)) {
+					statement.highestSpendByCategory(category, option);
+					return;
+				}
+				else {
+					return;
+				}
+			}catch(Exception e) {
+				System.out.println(String.format("Please enter a year within range"));
+				return;
+			}
+		}
+	}
+	
+	private static void option9(IStatementService statement, Enum<Category> category, List<Integer> iList) {
+		Scanner scanner = new Scanner(System.in);
+		int option = 1;
+		
+		while (true) {
+			for(Integer item : iList) {
+				System.out.println(item);
+			}
+			try {
+				option = scanner.nextInt();
+				if(iList.contains(option)) {
+					statement.lowestSpendByCategory(category, option);
+					return;
+				}
+				else {
+					return;
+				}
+			}catch(Exception e) {
+				System.out.println(String.format("Please enter a year within range"));
+				return;
+			}
+		}
+	}
+	
+	private static void exitApplication() {
+		System.out.println("Exiting");
+		System.exit(0);
 	}
 }
