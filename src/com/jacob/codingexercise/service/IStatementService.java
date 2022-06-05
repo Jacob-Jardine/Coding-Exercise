@@ -8,7 +8,7 @@ import java.util.Map;
 public interface IStatementService {
 	public Boolean addTransaction(int numOfTransactions);
 	
-	public Boolean readStatement();
+	public Boolean readStatement(List<Transaction> transactionList);
 	
 	public Boolean sortStatement();
 	

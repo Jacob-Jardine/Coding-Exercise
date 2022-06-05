@@ -79,13 +79,15 @@ public class StatementService implements IStatementService{
 	}
 
 	@Override
-	public Boolean readStatement() {
+	public Boolean readStatement(List<Transaction> transactionList) {
 		try {
-			if(_transaction.size() == 0) {
+			if(transactionList.size() == 0) {
 				return false;
 			}
-			for(Transaction transaction : _transaction) {
-				System.out.print(transaction.toString()+ "\n");
+			int i = 0;
+			for(Transaction transaction : transactionList) {
+				System.out.print(i + transaction.toString()+ "\n");
+				i++;
 			}
 			return true;
 		}catch(Exception e){

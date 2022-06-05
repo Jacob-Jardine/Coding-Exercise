@@ -14,7 +14,7 @@ public class Main {
 
 	public static void main(String[] args) {
 		
-		IStatementService Statement = SetUp();
+		IStatementService Statement = setUp();
 		
 		String[] options = {
 				"1- Assign category",
@@ -52,6 +52,7 @@ public class Main {
 					option5(Statement);
 					break;
 				case 7:
+					//scanner.close();
 					option6();
 					break;
 				}
@@ -62,7 +63,7 @@ public class Main {
 		}
 	}
 	
-	private static IStatementService SetUp() {
+	private static IStatementService setUp() {
 		List<Transaction> transactionList = new ArrayList<Transaction>();
 		IStatementService statement = new StatementService(transactionList);
 		statement.addTransaction(20);
@@ -73,14 +74,6 @@ public class Main {
 	public static void PrintMenu(String[] options) {
 		for(String option : options) {
 			System.out.println(option);
-		}
-	}
-	
-	public static void ReadStatement(List<Transaction> transactionList) {
-		int i = 0;
-		for(Transaction item: transactionList) {
-			System.out.println(i + item.toString());
-			i++;
 		}
 	}
 	
@@ -104,17 +97,18 @@ public class Main {
 				switch(option) {
 				case 1:
 					t = statement.filterTransactionsByCategory(Category.DD);
-					ReadStatement(t);
+					statement.readStatement(t);
 					break;
 				case 2:
 					t = statement.filterTransactionsByCategory(Category.GROCERIES);
-					ReadStatement(t);
+					statement.readStatement(t);
 					break;
 				case 3:
 					t = statement.filterTransactionsByCategory(Category.OTHER);
-					ReadStatement(t);
+					statement.readStatement(t);
 					break;
 				case 4:
+					//scanner.close();
 					return;
 				}
 			}catch(Exception e) {
@@ -136,8 +130,8 @@ public class Main {
 				"4- Back"
 		};
 		
-		List<Transaction> t = new ArrayList<Transaction>();
-		List<Integer> iList = new ArrayList<Integer>();
+		//List<Transaction> t = new ArrayList<Transaction>();
+		//List<Integer> iList = new ArrayList<Integer>();
 		Scanner scanner = new Scanner(System.in);
 		int option = 1;
 		while (true) {
@@ -313,23 +307,24 @@ public class Main {
 		Scanner scanner = new Scanner(System.in);
 		int option = 1;
 		while (true) {
+			System.out.println("Select category to view transactions");
 			PrintMenu(options);
 			try {
 				option = scanner.nextInt();
 				switch(option) {
 				case 1:
 					t = statement.filterTransactionsByCategory(Category.DD);
-					ReadStatement(t);
+					statement.readStatement(t);
 					option10(statement, t);
 					break;
 				case 2:
 					t = statement.filterTransactionsByCategory(Category.GROCERIES);
-					ReadStatement(t);
+					statement.readStatement(t);
 					option10(statement, t);
 					break;
 				case 3:
 					t = statement.filterTransactionsByCategory(Category.OTHER);
-					ReadStatement(t);
+					statement.readStatement(t);
 					option10(statement, t);
 					break;
 				case 4:
@@ -343,35 +338,31 @@ public class Main {
 	}
 	
 	private static void option10(IStatementService statement, List<Transaction> transactionList) {
-		String[] options = {
-				"1- Direct Debit",
-				"2- Groceries",
-				"3- Other",
-				"4- Back"
-		};
-		
-		List<Transaction> t = new ArrayList<Transaction>();
-		
 		Scanner scanner = new Scanner(System.in);
 		int option = 1;
 		int nextOption = 1;
 		while (true) {
-			//PrintMenu(options);
 			try {
 				System.out.println("Type transaction number to change category");
 				option = scanner.nextInt();
 				if(option <= transactionList.size()) {
 					System.out.println(transactionList.get(option).toString());
-					System.out.println("1- Direct Debit \n"
-							+ "2- Groceries \n"
-							+ "3- Other \n"
+					System.out.println("1- Change to Direct Debit \n"
+							+ "2- Change to Groceries \n"
+							+ "3- Change to Other \n"
 							+ "4- Back");
 					nextOption = scanner.nextInt();
+					if(nextOption == 1 && transactionList.get(option).getCategory() == Category.DD || 
+							nextOption == 2 && transactionList.get(option).getCategory() == Category.GROCERIES ||
+							nextOption == 3 && transactionList.get(option).getCategory() == Category.OTHER) {
+						System.out.println("Can't change category to same category");
+						return;
+						
+					}
 					switch(nextOption) {
 					case 1:
 						statement.assignCategory(transactionList.get(option), Category.DD);
 						System.out.println(transactionList.get(option).toString() + "Updated!");
-						
 						return;
 					case 2:
 						statement.assignCategory(transactionList.get(option), Category.GROCERIES);
@@ -387,7 +378,7 @@ public class Main {
 				}
 				
 			}catch(Exception e) {
-				System.out.println(String.format("Please enter an integer value between 1 and %s", options.length));
+				System.out.println("Please enter an integer value between 1 and 4");
 				scanner.next();
 			}
 		}

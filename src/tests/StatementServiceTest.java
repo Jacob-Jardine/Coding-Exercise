@@ -71,7 +71,7 @@ class StatementServiceTest {
 		List<Transaction> transactionList = new ArrayList<Transaction>();
 		IStatementService statement = new StatementService(transactionList);
 		
-		assertFalse(statement.readStatement());
+		assertFalse(statement.readStatement(transactionList));
 	}
 	
 	@Test
@@ -81,7 +81,7 @@ class StatementServiceTest {
 						
 		statement.addTransaction(10);
 		
-		assertTrue(statement.readStatement());
+		assertTrue(statement.readStatement(transactionList));
 	}
 	
 	@Test
@@ -89,7 +89,7 @@ class StatementServiceTest {
 		List<Transaction> transactionList = null;
 		IStatementService statement = new StatementService(transactionList);
 						
-		assertFalse(statement.readStatement());
+		assertFalse(statement.readStatement(transactionList));
 	}
 	
 	@Test
