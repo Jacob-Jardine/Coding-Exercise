@@ -353,6 +353,17 @@ class StatementServiceTest {
 	}
 	
 	@Test
+	void monthlyAverageSpendForCategorSize1() {
+		List<Transaction> transactionList = new ArrayList<Transaction>();
+		IStatementService statement = new StatementService(transactionList);
+		
+		Transaction t1 = new Transaction(10.0, Category.DD, LocalDate.now(), Type.DD, "CYBG");
+		transactionList.add(t1);
+		
+		assertEquals(statement.monthlyAverageSpendByCategory(Category.DD), t1.getAmount());
+	}
+	
+	@Test
 	void assignCategoryException() {
 		List<Transaction> transactionList = null;
 		IStatementService statement = new StatementService(transactionList);
