@@ -84,7 +84,7 @@ public class Main {
 				"4- Back"
 		};
 		
-		List<Transaction> t = new ArrayList<Transaction>();
+		List<Transaction> transactionList = new ArrayList<Transaction>();
 		
 		Scanner scanner = new Scanner(System.in);
 		int option = 1;
@@ -95,19 +95,19 @@ public class Main {
 				option = scanner.nextInt();
 				switch(option) {
 				case 1:
-					t = statement.filterTransactionsByCategory(Category.DD);
-					statement.readStatement(t);
-					option7(statement, t);
+					transactionList = statement.filterTransactionsByCategory(Category.DD);
+					statement.readStatement(transactionList);
+					option7(statement, transactionList);
 					break;
 				case 2:
-					t = statement.filterTransactionsByCategory(Category.GROCERIES);
-					statement.readStatement(t);
-					option7(statement, t);
+					transactionList = statement.filterTransactionsByCategory(Category.GROCERIES);
+					statement.readStatement(transactionList);
+					option7(statement, transactionList);
 					break;
 				case 3:
-					t = statement.filterTransactionsByCategory(Category.OTHER);
-					statement.readStatement(t);
-					option7(statement, t);
+					transactionList = statement.filterTransactionsByCategory(Category.OTHER);
+					statement.readStatement(transactionList);
+					option7(statement, transactionList);
 					break;
 				case 4:
 					return;
@@ -127,7 +127,7 @@ public class Main {
 				"4- Back"
 		};
 		
-		List<Transaction> t = new ArrayList<Transaction>();
+		List<Transaction> transactionList = new ArrayList<Transaction>();
 		
 		Scanner scanner = new Scanner(System.in);
 		int option = 1;
@@ -137,16 +137,16 @@ public class Main {
 				option = scanner.nextInt();
 				switch(option) {
 				case 1:
-					t = statement.filterTransactionsByCategory(Category.DD);
-					statement.readStatement(t);
+					transactionList = statement.filterTransactionsByCategory(Category.DD);
+					statement.readStatement(transactionList);
 					break;
 				case 2:
-					t = statement.filterTransactionsByCategory(Category.GROCERIES);
-					statement.readStatement(t);
+					transactionList = statement.filterTransactionsByCategory(Category.GROCERIES);
+					statement.readStatement(transactionList);
 					break;
 				case 3:
-					t = statement.filterTransactionsByCategory(Category.OTHER);
-					statement.readStatement(t);
+					transactionList = statement.filterTransactionsByCategory(Category.OTHER);
+					statement.readStatement(transactionList);
 					break;
 				case 4:
 					return;
@@ -204,8 +204,8 @@ public class Main {
 				"4- Back"
 		};
 		
-		List<Transaction> t = new ArrayList<Transaction>();
-		List<Integer> iList = new ArrayList<Integer>();
+		List<Transaction> transactionList = new ArrayList<Transaction>();
+		List<Integer> yearList = new ArrayList<Integer>();
 		Scanner scanner = new Scanner(System.in);
 		int option = 1;
 		while (true) {
@@ -214,19 +214,19 @@ public class Main {
 				option = scanner.nextInt();
 				switch(option) {
 				case 1:
-					t = statement.filterTransactionsByCategory(Category.DD);
-					iList = statement.getCategoryYear(t);
-					option8(statement, Category.DD, iList);
+					transactionList = statement.filterTransactionsByCategory(Category.DD);
+					yearList = statement.getCategoryYear(transactionList);
+					option8(statement, Category.DD, yearList);
 					break;
 				case 2:
-					t = statement.filterTransactionsByCategory(Category.GROCERIES);
-					iList = statement.getCategoryYear(t);
-					option8(statement, Category.GROCERIES,  iList);
+					transactionList = statement.filterTransactionsByCategory(Category.GROCERIES);
+					yearList = statement.getCategoryYear(transactionList);
+					option8(statement, Category.GROCERIES,  yearList);
 					break;
 				case 3:
-					t = statement.filterTransactionsByCategory(Category.OTHER);
-					iList = statement.getCategoryYear(t);
-					option8(statement, Category.OTHER,  iList);
+					transactionList = statement.filterTransactionsByCategory(Category.OTHER);
+					yearList = statement.getCategoryYear(transactionList);
+					option8(statement, Category.OTHER,  yearList);
 					break;
 				case 4:
 					return;
@@ -246,8 +246,8 @@ public class Main {
 				"4- Back"
 		};
 		
-		List<Transaction> t = new ArrayList<Transaction>();
-		List<Integer> iList = new ArrayList<Integer>();
+		List<Transaction> transactionList = new ArrayList<Transaction>();
+		List<Integer> yearList = new ArrayList<Integer>();
 		Scanner scanner = new Scanner(System.in);
 		int option = 1;
 		while (true) {
@@ -256,19 +256,19 @@ public class Main {
 				option = scanner.nextInt();
 				switch(option) {
 				case 1:
-					t = statement.filterTransactionsByCategory(Category.DD);
-					iList = statement.getCategoryYear(t);
-					option9(statement, Category.DD, iList);
+					transactionList = statement.filterTransactionsByCategory(Category.DD);
+					yearList = statement.getCategoryYear(transactionList);
+					option9(statement, Category.DD, yearList);
 					break;
 				case 2:
-					t = statement.filterTransactionsByCategory(Category.GROCERIES);
-					iList = statement.getCategoryYear(t);
-					option9(statement, Category.GROCERIES,  iList);
+					transactionList = statement.filterTransactionsByCategory(Category.GROCERIES);
+					yearList = statement.getCategoryYear(transactionList);
+					option9(statement, Category.GROCERIES,  yearList);
 					break;
 				case 3:
-					t = statement.filterTransactionsByCategory(Category.OTHER);
-					iList = statement.getCategoryYear(t);
-					option9(statement, Category.OTHER,  iList);
+					transactionList = statement.filterTransactionsByCategory(Category.OTHER);
+					yearList = statement.getCategoryYear(transactionList);
+					option9(statement, Category.OTHER,  yearList);
 					break;
 				case 4:
 					return;
@@ -328,16 +328,16 @@ public class Main {
 		}
 	}
 	
-	private static void option8(IStatementService statement, Enum<Category> category, List<Integer> iList) {
+	private static void option8(IStatementService statement, Enum<Category> category, List<Integer> yearList) {
 		Scanner scanner = new Scanner(System.in);
 		int option = 1;
 		while (true) {
-			for(Integer item : iList) {
+			for(Integer item : yearList) {
 				System.out.println(item);
 			}
 			try {
 				option = scanner.nextInt();
-				if(iList.contains(option)) {
+				if(yearList.contains(option)) {
 					statement.highestSpendByCategory(category, option);
 					return;
 				}
@@ -351,17 +351,17 @@ public class Main {
 		}
 	}
 	
-	private static void option9(IStatementService statement, Enum<Category> category, List<Integer> iList) {
+	private static void option9(IStatementService statement, Enum<Category> category, List<Integer> yearList) {
 		Scanner scanner = new Scanner(System.in);
 		int option = 1;
 		
 		while (true) {
-			for(Integer item : iList) {
+			for(Integer item : yearList) {
 				System.out.println(item);
 			}
 			try {
 				option = scanner.nextInt();
-				if(iList.contains(option)) {
+				if(yearList.contains(option)) {
 					statement.lowestSpendByCategory(category, option);
 					return;
 				}
