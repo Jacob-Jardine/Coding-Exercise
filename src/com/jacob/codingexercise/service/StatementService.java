@@ -34,7 +34,6 @@ public class StatementService implements IStatementService{
 		}
 		
 		try {
-			// Arrays that contain vendor names associated to categories
 			String[] ddArr = {"CYBG", "PureGym"};
 			String[] groceriesArr = {"Asda", "Morrisons", "M&S"};
 			String[] otherArr = {"McMillan"};
